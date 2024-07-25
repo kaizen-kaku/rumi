@@ -6,8 +6,8 @@ export default function ChatMessages({ messages }: any) {
           key={message.id}
           className={`max-w-[70%] mb-4 p-3 rounded-lg ${
             message.role === 'user'
-              ? 'ml-auto bg-blue-500 text-white'
-              : 'mr-auto bg-gray-200 text-gray-800'
+              ? 'ml-auto bg-gray-700 text-white'
+              : 'mr-auto bg-gray-500 text-gray-200'
           }`}
         >
           <div className="break-words">{message.content}</div>

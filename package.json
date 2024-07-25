@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.37",
+    "@headlessui/react": "^2.1.2",
     "@heroicons/react": "^2.1.5",
     "@types/pg": "^8.11.6",
     "ai": "^3.2.35",

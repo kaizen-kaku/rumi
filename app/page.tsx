@@ -1,7 +1,7 @@
 "use server"
 import { auth } from "@/app/auth"
 import { redirect } from 'next/navigation'
-import ChatComponent from '@/app/components/ChatComponent'
+import ChatLayout from '@/app/components/ChatLayout'
 
 export default async function Page() {
   const session = await auth()
@@ -10,10 +10,5 @@ export default async function Page() {
     redirect('/api/auth/signin')
   }
 
-  return (
-    <div>
-      <ChatComponent />
-    </div>
-
-  )
+  return <ChatLayout />
 }
