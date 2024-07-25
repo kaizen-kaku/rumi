@@ -1,7 +1,8 @@
 'use client';
 
 import { Lora } from "next/font/google";
-import { XMarkIcon, ChatBubbleLeftRightIcon, ChatBubbleLeftIcon, BuildingOffice2Icon } from "@heroicons/react/24/outline";
+import { XMarkIcon, ChatBubbleLeftRightIcon, ChatBubbleLeftIcon, BuildingOffice2Icon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+
 import { signOut } from "next-auth/react";
 
 const lora = Lora({ subsets: ["latin"] });
@@ -15,7 +16,7 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
     : '';
 
   console.log(user?.admin)
-  const title = user?.admin ? 'Administrator' : 'User'
+  const title = user?.admin ? 'Administrator' : 'Member'
   return (
     <div
       className={`bg-secondary w-64 h-full fixed top-0 left-0 transform ${open ? "translate-x-0" : "-translate-x-full"
@@ -45,6 +46,13 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
               <span className="truncate">Administration Portal</span>
             </a>
           )}
+          <a
+            href="/settings"
+            className="flex items-center px-3 py-1.5 text-sm text-accent hover:bg-gray-700 rounded overflow-hidden"
+          >
+            <ChatBubbleLeftIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+            <span className="truncate">Settings</span>
+          </a>
         </div>
         <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Recents</h3>
         <div className="space-y-1">

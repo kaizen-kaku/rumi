@@ -13,7 +13,7 @@ type User = {
 
 export default function UserTable({ users }: { users: User[] }) {
   return (
-    <div className="overflow-x-auto mr-12 ml-12 mt-8">
+    <div className="overflow-hidden mr-12 ml-12 mt-8 rounded-lg">
       <table className="min-w-full bg-secondary text-white">
         <thead>
           <tr>
@@ -25,8 +25,8 @@ export default function UserTable({ users }: { users: User[] }) {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id} className="hover:bg-gray-700">
+          {users.map((user, index) => (
+            <tr key={user.id} className={`hover:bg-gray-700 ${index === users.length - 1 ? '' : 'border-b border-gray-700'}`}>
               <td className="px-6 py-4 whitespace-nowrap">{user.id}</td>
               <td className="px-6 py-4 whitespace-nowrap">{`${user.first_name} ${user.middle_name ? user.middle_name + ' ' : ''}${user.last_name}`}</td>
               <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>

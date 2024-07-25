@@ -63,7 +63,7 @@ export default function UserDetailsEditor({ user: initialUser }: { user: User })
   }
 
   return (
-    <div className="overflow-x-auto mr-12 ml-12 mt-8">
+    <div className="overflow-x-auto mr-12 ml-12 mt-8 rounded-lg">
       <table className="min-w-full bg-secondary text-white">
         <thead>
           <tr>

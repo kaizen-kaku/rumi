@@ -1,5 +1,3 @@
-// File: app/administration/page.tsx
-
 import { auth } from "@/app/auth"
 import { redirect } from 'next/navigation'
 import AccessDenied from "@/app/components/AccessDenied"
