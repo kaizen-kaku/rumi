@@ -1,4 +1,3 @@
-"use server"
 import { auth } from "@/app/auth"
 import { redirect } from 'next/navigation'
 import ChatLayout from '@/app/components/ChatLayout'
