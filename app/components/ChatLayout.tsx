@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
 import Sidebar from '@/app/components/Sidebar';
 import ChatArea from '@/app/components/ChatArea';
-import { AdjustmentsHorizontalIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { Bars3Icon } from '@heroicons/react/24/outline';
 
 export default function ChatLayout() {
   const { data: session } = useSession();
@@ -37,7 +37,6 @@ export default function ChatLayout() {
           <div className="max-w-7xl mx-auto py-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center">
               <h1 className="text-2xl font-semibold text-white">Ollama</h1>
-              <AdjustmentsHorizontalIcon className="h-6 w-6" color="white" />
             </div>
           </div>
           {(!sidebarOpen || isMobile) && (
