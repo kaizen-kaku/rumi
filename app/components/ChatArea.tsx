@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import ChatMessages from './ChatMessages';
 import ChatInput from './ChatInput';
-import ExamplePrompts from './ExamplePrompts';
 
 export default function ChatArea({ chatHook }: { chatHook: any }) {
   const { messages, input, handleSubmit, handleInputChange, isLoading } = chatHook;
@@ -17,7 +16,7 @@ export default function ChatArea({ chatHook }: { chatHook: any }) {
         <ChatMessages messages={messages} />
         <div ref={messagesEndRef} />
       </div>
-      <div className="w-full max-w-4xl mx-auto px-4">
+      <div className="w-full max-w-4xl mx-auto px-4 mb-2">
         <ChatInput
           input={input}
           handleSubmit={handleSubmit}

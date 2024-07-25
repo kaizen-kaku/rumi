@@ -9,7 +9,7 @@ import { AdjustmentsHorizontalIcon, Bars3Icon } from '@heroicons/react/24/outlin
 
 export default function ChatLayout() {
   const { data: session } = useSession();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const chatHook = useChat();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -24,7 +24,7 @@ export default function ChatLayout() {
     if (isMobile) {
       setSidebarOpen(false);
     } else {
-      setSidebarOpen(true);
+      setSidebarOpen(false);
     }
   }, [isMobile]);
 
@@ -34,9 +34,9 @@ export default function ChatLayout() {
       
       <div className={`flex-1 flex flex-col overflow-hidden ${sidebarOpen && !isMobile ? 'lg:ml-64' : ''}`}>
         <header className="bg-surface shadow-sm z-10 relative">
-          <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto py-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center">
-              <h1 className="text-2xl font-semibold text-white">Chat</h1>
+              <h1 className="text-2xl font-semibold text-white">Ollama</h1>
               <AdjustmentsHorizontalIcon className="h-6 w-6" color="white" />
             </div>
           </div>
