@@ -9,5 +9,5 @@ export default async function Page() {
     redirect('/api/auth/signin')
   }
 
-  return <ChatLayout />
+  return <ChatLayout session={session}/>
 }

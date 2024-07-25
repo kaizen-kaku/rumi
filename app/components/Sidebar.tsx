@@ -15,7 +15,6 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
     ? `${user.firstName} ${user.lastName}`
     : '';
 
-  console.log(user?.admin)
   const title = user?.admin ? 'Administrator' : 'Member'
   return (
     <div

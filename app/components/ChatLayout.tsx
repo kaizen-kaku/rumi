@@ -1,14 +1,12 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useChat } from 'ai/react';
 import Sidebar from '@/app/components/Sidebar';
 import ChatArea from '@/app/components/ChatArea';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 
-export default function ChatLayout() {
-  const { data: session } = useSession();
+export default function ChatLayout(session: any) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const chatHook = useChat();
   const [isMobile, setIsMobile] = useState(false);
@@ -30,7 +28,7 @@ export default function ChatLayout() {
 
   return (
     <div className="flex h-screen bg-primary text-text">
-      <Sidebar user={session?.user} open={sidebarOpen} setOpen={setSidebarOpen} isMobile={isMobile} />
+      <Sidebar user={session?.session?.user} open={sidebarOpen} setOpen={setSidebarOpen} isMobile={isMobile} />
       
       <div className={`flex-1 flex flex-col overflow-hidden ${sidebarOpen && !isMobile ? 'lg:ml-64' : ''}`}>
         <header className="bg-surface shadow-sm z-10 relative">
