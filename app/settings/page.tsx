@@ -1,7 +1,5 @@
 import { auth } from "@/app/auth"
 import { redirect } from 'next/navigation'
-import AccessDenied from "@/app/components/AccessDenied"
-import UserTable from "@/app/components/UserTable"
 import { getAllUsers } from "@/app/lib/db"
 import Link from 'next/link'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'

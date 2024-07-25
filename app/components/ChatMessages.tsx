@@ -11,8 +11,6 @@ import 'katex/dist/katex.min.css';
 import { CheckIcon } from '@heroicons/react/24/solid';
 import { Components } from 'react-markdown';
 
-
-
 interface Message {
   id: string | number;
   role: 'user' | 'assistant';
