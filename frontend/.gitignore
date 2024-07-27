@@ -2,6 +2,8 @@
 
 # custom
 .env 
+/database/data
+/data
 
 # dependencies
 /node_modules

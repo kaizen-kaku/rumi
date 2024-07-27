@@ -16,7 +16,7 @@ ON CONFLICT (email) DO NOTHING;
 
 -- Insert an admin user
 INSERT INTO users (first_name, last_name, email, password, admin) 
-VALUES ('Adminz', 'User', 'admin@example.com', 'hashedpassword456', TRUE)
+VALUES ('Administrator', 'User', 'admin@example.com', 'hashedpassword456', TRUE)
 ON CONFLICT (email) DO NOTHING;
 
 -- Insert Yourself
