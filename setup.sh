@@ -43,6 +43,32 @@ log() {
 
 log "INFO" "Initiating setup process"
 
+# Check if script is run with sudo
+if [ "$EUID" -ne 0 ]; then
+    log "ERROR" "Please run as root or with sudo"
+    exit 1
+fi
+
+# Step 0: Install Docker Compose
+log "INFO" "Installing Docker Compose"
+apt-get update
+apt-get install -y docker-compose
+if [ $? -eq 0 ]; then
+    log "SUCCESS" "Docker Compose installed successfully"
+else
+    log "ERROR" "Failed to install Docker Compose. Exiting..."
+    exit 1
+fi
+
+# Determine environment
+if [ "$NODE_ENV" = "production" ]; then
+    log "INFO" "Running in production mode"
+    OLLAMA_URL="http://ollama:11434"
+else
+    log "INFO" "Running in development mode"
+    OLLAMA_URL="http://localhost:11434"
+fi
+
 # Step 1: Build and start the containers
 log "INFO" "Building and starting containers"
 docker-compose up -d --build
@@ -105,14 +131,13 @@ fi
 
 # Step 5: Update Next.js app configuration
 log "INFO" "Updating Next.js app configuration to connect to Ollama"
-# Assuming your Next.js app is in a directory named 'frontend'
 if [ -f "./frontend/.env.local" ]; then
-    echo "OLLAMA_API_URL=http://localhost:11434" >> ./frontend/.env.local
+    echo "OLLAMA_API_URL=$OLLAMA_URL" >> ./frontend/.env.local
     log "SUCCESS" "Next.js app configuration updated"
 else
-    log "WARN" "Could not find .env.local file for Next.js app. Please manually set OLLAMA_API_URL=http://localhost:11434"
+    log "WARN" "Could not find .env.local file for Next.js app. Please manually set OLLAMA_API_URL=$OLLAMA_URL"
 fi
 
 log "SUCCESS" "Setup process completed successfully"
 log "INFO" "You can access the app at: http://localhost:3000"
-log "INFO" "Ollama is accessible at: http://localhost:11434"
+log "INFO" "Ollama is accessible at: $OLLAMA_URL"
