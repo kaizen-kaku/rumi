@@ -3,10 +3,8 @@
 # Color codes
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
+YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
-MAGENTA='\033[0;35m'
-CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Loader function
@@ -24,47 +22,97 @@ loader() {
     printf "    \b\b\b\b"
 }
 
-echo -e "${MAGENTA}=======================================${NC}"
-echo -e "${CYAN}Setup Process Initiated ${NC}"
-echo -e "${MAGENTA}=======================================${NC}"
+log() {
+    local level=$1
+    local message=$2
+    case $level in
+        "INFO")
+            echo -e "${BLUE}[INFO]${NC} $message"
+            ;;
+        "WARN")
+            echo -e "${YELLOW}[WARN]${NC} $message"
+            ;;
+        "ERROR")
+            echo -e "${RED}[ERROR]${NC} $message"
+            ;;
+        "SUCCESS")
+            echo -e "${GREEN}[SUCCESS]${NC} $message"
+            ;;
+    esac
+}
+
+log "INFO" "Initiating setup process"
 
 # Step 1: Build and start the containers
-echo -e "\n${YELLOW}Building and starting containers...${NC}"
+log "INFO" "Building and starting containers"
 docker-compose up -d --build
 
 # Wait for the database to be ready
-echo -e "\n${BLUE}Initiating PostgreSQL Database...${NC}"
-echo -e "${CYAN}Waiting for database to come up...${NC}"
+log "INFO" "Initiating PostgreSQL Database"
+log "INFO" "Waiting for database to come up"
 (sleep 20) &
 loader $!
 
 # Test the database connection
-echo -e "\n${YELLOW}Testing database connection...${NC}"
-docker-compose exec db psql -U myuser -d myapp -c "SELECT 1;" > /dev/null 2>&1
-
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}Database connection successful.${NC}"
+log "INFO" "Testing database connection"
+if docker-compose exec db psql -U myuser -d myapp -c "SELECT 1;" > /dev/null 2>&1; then
+    log "SUCCESS" "Database connection successful"
 else
-    echo -e "${RED}Database connection failed. Exiting...${NC}"
+    log "ERROR" "Database connection failed. Exiting..."
     docker-compose down
     exit 1
 fi
 
 # Check if users table has data
-echo -e "\n${YELLOW}Checking if users have been inserted...${NC}"
-docker-compose exec db psql -U myuser -d myapp -c "SELECT * FROM users;" > /dev/null 2>&1
-
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}Users table accessed successfully.${NC}"
+log "INFO" "Checking if users have been inserted"
+if docker-compose exec db psql -U myuser -d myapp -c "SELECT * FROM users;" > /dev/null 2>&1; then
+    log "SUCCESS" "Users table accessed successfully"
 else
-    echo -e "${RED}Failed to access users table. It may be empty or not exist.${NC}"
-    # Uncomment the following lines if you want to exit on this failure
-    # docker-compose down
-    # exit 1
+    log "WARN" "Failed to access users table. It may be empty or not exist"
 fi
 
-echo -e "\n${GREEN}=======================================${NC}"
-echo -e "${CYAN}🎉 Setup complete!${NC}"
-echo -e "${GREEN}=======================================${NC}"
-echo -e "${MAGENTA}You can access the app at:${NC} ${YELLOW}http://localhost:3000${NC}"
-echo -e "${BLUE}Happy coding!${NC}"
+# Step 2: Pull Ollama Docker image
+log "INFO" "Pulling Ollama Docker image"
+if docker pull ollama/ollama; then
+    log "SUCCESS" "Ollama Docker image pulled successfully"
+else
+    log "ERROR" "Failed to pull Ollama Docker image. Exiting..."
+    docker-compose down
+    exit 1
+fi
+
+# Step 3: Run Ollama container
+log "INFO" "Starting Ollama container"
+if docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama; then
+    log "SUCCESS" "Ollama container started successfully"
+else
+    log "ERROR" "Failed to start Ollama container. Exiting..."
+    docker-compose down
+    exit 1
+fi
+
+# Step 4: Run Llama 3.1 model
+log "INFO" "Initializing Llama 3.1 model"
+if docker exec -it ollama ollama run llama3.1:8b; then
+    log "SUCCESS" "Llama 3.1 model initialized successfully"
+else
+    log "ERROR" "Failed to initialize Llama 3.1 model. Exiting..."
+    docker-compose down
+    docker stop ollama
+    docker rm ollama
+    exit 1
+fi
+
+# Step 5: Update Next.js app configuration
+log "INFO" "Updating Next.js app configuration to connect to Ollama"
+# Assuming your Next.js app is in a directory named 'frontend'
+if [ -f "./frontend/.env.local" ]; then
+    echo "OLLAMA_API_URL=http://localhost:11434" >> ./frontend/.env.local
+    log "SUCCESS" "Next.js app configuration updated"
+else
+    log "WARN" "Could not find .env.local file for Next.js app. Please manually set OLLAMA_API_URL=http://localhost:11434"
+fi
+
+log "SUCCESS" "Setup process completed successfully"
+log "INFO" "You can access the app at: http://localhost:3000"
+log "INFO" "Ollama is accessible at: http://localhost:11434"
