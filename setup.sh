@@ -76,25 +76,45 @@ docker-compose up -d --build
 # Wait for the database to be ready
 log "INFO" "Initiating PostgreSQL Database"
 log "INFO" "Waiting for database to come up"
-(sleep 45) &
-loader $!
 
-# Test the database connection
-log "INFO" "Testing database connection"
-if docker-compose exec db psql -U myuser -d myapp -c "SELECT 1;" > /dev/null 2>&1; then
+# Function to test database connection
+test_db_connection() {
+    docker-compose exec -T db psql -U myuser -d myapp -c "SELECT 1;" > /dev/null 2>&1
+    return $?
+}
+
+# Try to connect to the database multiple times
+max_retries=30
+count=0
+while ! test_db_connection && [ $count -lt $max_retries ]; do
+    log "INFO" "Waiting for database connection... Attempt $((count+1))/$max_retries"
+    sleep 2
+    count=$((count+1))
+done
+
+# Check if connection was successful
+if test_db_connection; then
     log "SUCCESS" "Database connection successful"
 else
-    log "ERROR" "Database connection failed. Exiting..."
+    log "ERROR" "Failed to connect to the database after $max_retries attempts. Exiting..."
+    docker-compose logs db  # Print database logs for debugging
     docker-compose down
     exit 1
 fi
 
 # Check if users table has data
-log "INFO" "Checking if users have been inserted"
-if docker-compose exec db psql -U myuser -d myapp -c "SELECT * FROM users;" > /dev/null 2>&1; then
-    log "SUCCESS" "Users table accessed successfully"
+log "INFO" "Checking if users table exists"
+if docker-compose exec -T db psql -U myuser -d myapp -c "SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name = 'users');" | grep -q 't'; then
+    log "SUCCESS" "Users table exists"
+    
+    # Check if users table has data
+    if [ "$(docker-compose exec -T db psql -U myuser -d myapp -c "SELECT COUNT(*) FROM users;" | sed -n '3p' | tr -d ' ')" -gt "0" ]; then
+        log "SUCCESS" "Users table has data"
+    else
+        log "WARN" "Users table exists but is empty"
+    fi
 else
-    log "WARN" "Failed to access users table. It may be empty or not exist"
+    log "WARN" "Users table does not exist"
 fi
 
 # Step 2: Pull Ollama Docker image
