@@ -76,7 +76,7 @@ docker-compose up -d --build
 # Wait for the database to be ready
 log "INFO" "Initiating PostgreSQL Database"
 log "INFO" "Waiting for database to come up"
-(sleep 20) &
+(sleep 45) &
 loader $!
 
 # Test the database connection
