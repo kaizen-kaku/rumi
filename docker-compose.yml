@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:13
@@ -30,3 +28,6 @@ services:
       - ollama:/root/.ollama
     ports:
       - "11434:11434"
+
+volumes:
+  ollama:
