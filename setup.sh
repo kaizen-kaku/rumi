@@ -18,5 +18,9 @@ echo "Database connection successful."
 echo "Printing the full table of users..."
 docker compose exec db psql -U myuser -d myapp -c "SELECT * FROM users;"
 
-echo "Setup complete. Database and NextJS app are running."
+echo "Setup complete. Database, Next.js app, and Ollama are running."
 echo "You can access the app at http://localhost:3000"
+
+# Run Ollama
+echo "Starting Ollama model..."
+docker compose exec ollama ollama run llama3.1:8b

@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:13
@@ -21,3 +23,10 @@ services:
       DATABASE_URL: postgres://myuser:mypassword@db:5432/myapp
     depends_on:
       - db
+
+  ollama:
+    image: ollama/ollama
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
