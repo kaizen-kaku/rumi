@@ -1,6 +1,9 @@
 import { CoreMessage, streamText } from 'ai';
-// import { openai } from '@ai-sdk/openai';
-import { ollama } from 'ollama-ai-provider';
+import { createOllama } from 'ollama-ai-provider';
+
+const ollama = createOllama({
+  baseURL: process.env.OLLAMA_BASE_URL || 'http://localhost:11434/api',
+});
 
 export async function POST(req: Request) {
   const { messages }: { messages: CoreMessage[] } = await req.json();
