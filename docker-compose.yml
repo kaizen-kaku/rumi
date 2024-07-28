@@ -19,7 +19,7 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: postgres://myuser:mypassword@db:5432/myapp
-      OLLAMA_BASE_URL: http://localhost:11434/api
+      OLLAMA_BASE_URL: ollama:11434/api
     depends_on:
       - db
       - ollama
