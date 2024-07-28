@@ -19,8 +19,10 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: postgres://myuser:mypassword@db:5432/myapp
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
     depends_on:
       - db
+      - ollama
 
   ollama:
     image: ollama/ollama
