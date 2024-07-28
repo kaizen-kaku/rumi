@@ -2,7 +2,7 @@ import { CoreMessage, streamText } from 'ai';
 import { createOllama } from 'ollama-ai-provider';
 
 const ollama = createOllama({
-  baseURL: process.env.OLLAMA_BASE_URL || 'http://localhost:11434/api',
+  baseURL: 'http://localhost:11434/api',
 });
 
 export async function POST(req: Request) {
