@@ -15,7 +15,7 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
     ? `${user.firstName} ${user.lastName}`
     : '';
 
-  const title = user?.admin ? 'Administrator' : 'Member'
+  const title = user?.admin ? 'Administrator' : 'Member';
   return (
     <div
       className={`bg-secondary w-64 h-full fixed top-0 left-0 transform ${open ? "translate-x-0" : "-translate-x-full"
@@ -29,7 +29,7 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
       </div>
       <nav className="flex-grow overflow-y-auto px-2 py-2">
         <div className="space-y-1 mb-4">
-          
+          <a
             href="#"
             className="flex items-center px-3 py-1.5 text-sm text-accent hover:bg-gray-700 rounded overflow-hidden"
           >
@@ -37,7 +37,7 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
             <span className="truncate">Start new chat</span>
           </a>
           {user?.admin && (
-            
+            <a
               href="/administration"
               className="flex items-center px-3 py-1.5 text-sm text-accent hover:bg-gray-700 rounded overflow-hidden"
             >
@@ -45,18 +45,18 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
               <span className="truncate">Administration Portal</span>
             </a>
           )}
-          
+          <a
             href="/settings"
             className="flex items-center px-3 py-1.5 text-sm text-accent hover:bg-gray-700 rounded overflow-hidden"
           >
-            <ChatBubbleLeftIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+            <Cog6ToothIcon className="h-4 w-4 mr-2 flex-shrink-0" />
             <span className="truncate">Settings</span>
           </a>
         </div>
         <h3 className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Recents</h3>
         <div className="space-y-1">
           {['Chat 1 with a very long title that would usually start to cut itself off here', 'Chat 2', 'Chat 3'].map((chat, index) => (
-            
+            <a
               key={index}
               href="#"
               className="flex items-center px-3 py-1.5 text-sm text-gray-300 hover:bg-gray-700 rounded overflow-hidden"
@@ -76,7 +76,7 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
             <span className="text-white truncate">{displayName}</span>
             <div className="flex items-center space-x-2">
               <p className="text-xs text-gray-300">{title}</p>
-              
+              <a
                 href="#"
                 onClick={() => signOut()}
                 className="text-xs text-accent hover:text-accent2 transition-colors duration-200"
