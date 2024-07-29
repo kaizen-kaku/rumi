@@ -1,4 +1,14 @@
-# Ollama Cloud
+# Rumi
+
+## About
+Meet Rumi, the powerhouse that brings cutting-edge local language model (LLM) capabilities right to your fingertips! With Rumi, your business can harness the full potential of LLMs, ensuring top-notch internal security and seamless management.
+
+## Key Features:
+
+- Local Model Hosting: Run your LLMs locally with full control and unparalleled security, keeping your data in-house and your processes smooth.
+- Tool Calling: Integrate and utilize various tools effortlessly, all within Rumi’s intuitive interface.
+- Collaborative Workspace: Enable group work features that make teamwork a breeze, fostering innovation and efficiency.
+- Full Control: Rumi provides a robust platform for managing your models, from deployment to maintenance, giving you the reins to drive your business forward. 
 
 ## Prerequisites:
 1. Ensure Docker is installed on your server.

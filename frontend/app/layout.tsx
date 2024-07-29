@@ -6,7 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 const lato = Lato({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "Ollama",
+  title: "rumi",
   description: "_____internal____",
 };
 
