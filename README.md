@@ -28,8 +28,8 @@ Meet Rumi, the powerhouse that brings cutting-edge local language model (LLM) ca
 
 1. Clone the repository:
 ```bash
-   git clone [your-repo-url]
-   cd [your-repo-name]
+   git clone https://github.com/kaizen-kaku/rumi.git
+   cd ./rumi
 ```
 
 2. Make the setup script executable:
@@ -45,13 +45,10 @@ cd frontend
 nano .env
 ```
 
-   Paste the following environment variables into the .env file:
-
-   # API
-   OPENAI_API_KEY="your_openai_api_key"
-
+## Environment Variables 
+   ```bash 
    # AUTH & DB
-   AUTH_SECRET="your_auth_secret"
+   AUTH_SECRET="your_auth_secret" # openssl rand -base64 32
    DATABASE_URL="postgres://myuser:mypassword@localhost:5432/myapp"
    POSTGRES_PRISMA_URL="postgres://myuser:mypassword@localhost:5432/myapp?sslmode=require&pgbouncer=true&connect_timeout=15"
    DATABASE_URL_NON_POOLING="postgres://myuser:mypassword@localhost:5432/myapp?sslmode=require"
@@ -63,9 +60,10 @@ nano .env
    POSTGRES_DATABASE="myapp"
    POSTGRES_PORT="5432"
 
-   AUTH_TRUST_HOST="http://localhost:3000"
+   AUTH_TRUST_HOST="http://{YOUR_SERVER_IP}:3000"
    OLLAMA_API_URL="http://localhost:11434"
    NODE_ENV=""
+   ```
 
    Save and exit the editor (in nano, press Ctrl+X, then Y, then Enter)
 

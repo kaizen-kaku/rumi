@@ -22,7 +22,7 @@ export default function Sidebar({ user, open, setOpen, isMobile }: { user: any; 
         } transition-transform duration-300 ease-in-out z-30 flex flex-col`}
     >
       <div className="flex items-center justify-between p-4">
-        <h2 className={`${lora.className} text-2xl font-semibold text-white`}>Ollama</h2>
+        <h2 className={`${lora.className} text-2xl font-semibold text-white`}>Rumi</h2>
         <button onClick={() => setOpen(false)} className="text-white">
           <XMarkIcon className="h-6 w-6" />
         </button>
